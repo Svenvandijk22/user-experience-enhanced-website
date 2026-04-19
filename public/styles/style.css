@@ -1,0 +1,609 @@
+body {
+
+    margin: 0;
+
+}
+
+@font-face {
+    font-family: 'parkisans';
+    src: url('/fonts/Parkinsans-VariableFont_wght.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+
+.viernulvier {
+    text-align: center;
+    font-size: 45px;
+    margin-top: 20%;
+
+}
+
+header {
+
+    height: 100px;
+    border-bottom: 2px #E0B000 solid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+
+    img {
+        height: 300px;
+        width: 300px;
+    }
+}
+
+.filter-overzicht {
+    pointer-events: none;
+    opacity: 0;
+
+    position: absolute;
+    border: #E0B000 solid 5px;
+    background-color: #20A687;
+    height: 500px;
+    width: 750px;
+    left: 25%;
+    top: 90px;
+    z-index: 999;
+    border-radius: 30px;
+
+    transform: translateY(-20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+
+    &.open {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+    }
+
+    img {
+        width: 120px;
+        height: 120px;
+        position: absolute;
+        top: -103px;
+        left: 290px;
+    }
+
+    button {
+        margin-left: 80px;
+        border-radius: 10px;
+        background-color: #E1B100;
+        width: 80px;
+        height: 40px;
+        font-size: 25px;
+        border: none;
+    }
+
+    h2 {
+        font-family: 'parkisans';
+        font-size: 45px;
+        padding-left: 80px;
+        color: #FFFFFF;
+    }
+
+    .sorteren-overzicht {
+        display: flex;
+        flex-direction: column;
+        margin-left: 80px;
+        color: black;
+        font-size: 20px;
+        margin-bottom: 30px;
+        gap: 8px;
+        font-family: 'parkisans';
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .filter-overzicht {
+        transition: none;
+        transform: translateY(0);
+    }
+}
+
+details {
+    opacity: 1;
+    position: fixed;
+    bottom: 5%;
+    z-index: 100;
+    left: 26%;
+
+
+    summary {
+        list-style: none;
+        cursor: pointer;
+        z-index: 101;
+        position: relative;
+
+    }
+
+    .icon-open {
+      
+        width: 100px;
+        height: 130px;
+    }
+
+    .icon-close {
+        display: none;
+    }
+
+
+    &[open] {
+        summary {
+            .icon-open {
+                display: none;
+            }
+
+            .icon-close {
+
+                display: block;
+                width: 50px;
+                height: 60px;
+            }
+        }
+    }
+
+
+
+
+    .chatbot {
+        position: absolute;
+        bottom: 140px;
+        left: 50%;
+        transform: translateX(-70%);
+        width: 375px;
+        max-width: calc(100vw - 2rem);
+        top: auto;
+        right: auto;
+    }
+
+
+
+    @media (min-width: 655px) {
+        left: 60%;
+
+    }
+
+
+    @media (min-width: 985px) {
+        opacity: 0;
+    }
+
+
+}
+
+
+
+main {
+    background-color: #F9F9F9;
+
+    @media (min-width: 985px) {
+        display: flex;
+    }
+}
+
+.chatbot {
+    background-color: #F9F2D4;
+    width: 100%;
+    font-family: 'parkisans', Arial, Helvetica, sans-serif;
+    z-index: 10;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+
+
+    .chat-window {
+        flex: 1;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    /* berichten */
+    .message {
+        padding: 12px 16px;
+        border-radius: 12px;
+        max-width: 70%;
+    }
+
+    .bot {
+        background: #E0B000;
+        align-self: flex-start;
+    }
+
+    .user {
+        background: #EBEBEB;
+        align-self: flex-end;
+    }
+
+    /* input gebied */
+    .chat-input {
+
+        padding: 10px;
+    }
+
+    .chat-input form {
+        display: flex;
+        gap: 10px;
+    }
+
+    /* input */
+    .chat-input input {
+        flex: 1;
+        padding: 12px;
+        border-radius: 8px;
+        border: 2px solid #765E05;
+    }
+
+    /* knop */
+    .chat-input button {
+        width: 45px;
+        height: 45px;
+        border-radius: 9px;
+        border: none;
+        background: #7a5a00;
+        color: white;
+        font-size: 18px;
+        cursor: pointer;
+        font-family: 'parkisans', Arial, Helvetica, sans-serif;
+
+
+        img {
+            width: 20px;
+            height: 20px;
+        }
+    }
+
+    @media (min-width: 955px) {
+
+        width: 40%;
+
+        height: 500px;
+    }
+
+}
+
+.producten {
+
+    .titel {
+
+
+        text-align: center;
+        margin-left: 0%;
+        padding-left: 35px;
+        width: 80%;
+        font-family: 'parkisans', Arial, Helvetica, sans-serif;
+        margin-top: 30px;
+        background-image: url("../assets/achtergrond_milledoni.svg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 450px;
+        padding-top: 80px;
+        padding-left: 80px;
+        border-radius: 60px;
+
+        h1 {
+            width: 70%;
+
+            @media (min-width: 955px) {
+                text-align: left;
+
+            }
+        }
+
+        p {
+            width: 70%;
+
+            @media (min-width: 955px) {
+                text-align: left;
+
+            }
+        }
+
+        @media (min-width: 655px) {
+
+            margin-left: 6%;
+
+        }
+
+
+        @media (min-width: 955px) {
+
+            margin-left: 6%;
+            height: 300px;
+        }
+
+    }
+
+    .filterbutton {
+        background-color: #008263;
+        font-size: 23px;
+        font-family: 'parkisans';
+        color: white;
+        border: none;
+        border-radius: 6px;
+        padding: 5px;
+        display: flex;
+        align-items: center;
+
+        margin-left: 27%;
+
+        width: 120px;
+
+
+
+        img {
+            padding-right: 11px;
+            padding-left: 5px;
+
+            width: 25px;
+            height: 25px;
+        }
+
+
+        @media (min-width: 955px) {
+            margin: 0;
+
+        }
+    }
+
+    .productenlijst {
+        margin-left: 30px;
+
+        @media (min-width: 655px) {
+
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            margin-left: 10%;
+
+        }
+
+
+        .producten-kaart {
+            width: 300px;
+            margin-top: 60px;
+            position: relative;
+            border: #E0B000 solid 2px;
+            border-radius: 25px;
+            background-color: white;
+            text-align: center;
+            height: 500px;
+            box-shadow: inset 5px 5px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: box-shadow 0.2s ease, transform 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+
+            .producten-kaart:hover {
+                box-shadow: 0 12px 28px rgba(0, 0, 0, 0.52);
+                transform: translateY(-4px);
+            }
+
+            .strikje {
+                top: -223px;
+                left: 43%;
+                width: 50px;
+                margin-top: 40px;
+
+                position: absolute;
+            }
+
+
+
+            img {
+                padding-top: 50px;
+
+                border-radius: 25px;
+                width: 250px;
+                height: 240px;
+
+            }
+
+            form img {
+                border-radius: 0;
+            }
+
+
+            h2 {
+                font-size: 20px;
+                margin: 0;
+                padding-top: 14px;
+
+            }
+
+
+            form {
+                background: none;
+            }
+
+
+
+
+            button {
+
+                background: none;
+                border: none;
+                cursor: pointer;
+
+
+
+                .lijstje {
+
+                    padding: 50px;
+                    width: 35px;
+                    height: 35px;
+                }
+            }
+
+        }
+
+    }
+
+
+
+
+    h2 {
+        font-family: 'parkisans', Arial, Helvetica, sans-serif;
+        margin-left: 30%;
+    }
+
+}
+
+
+.opgeslagen-grid {
+    margin-left: 200px;
+
+
+    @media (min-width: 655px) {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        margin-left: 40px;
+    }
+
+    @media (min-width: 955px) {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        margin-left: 40px;
+        gap: 30px;
+    }
+
+    .strikje-twee {
+        top: -79px;
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        left: 130px;
+    }
+
+    button {
+
+        background: none;
+        border: none;
+        cursor: pointer;
+        background-color: none;
+    }
+
+    .lijstjemin {
+
+        padding: 50px;
+        width: 35px;
+        height: 7px;
+        margin: 0;
+
+
+    }
+
+
+    img {
+        border-radius: 25px;
+        width: 250px;
+        height: 240px;
+        margin-top: 40px;
+
+    }
+
+    .opgeslagen-product {
+        position: relative;
+        width: 300px;
+        margin-top: 60px;
+
+        border: #E0B000 solid 2px;
+        border-radius: 25px;
+        background-color: white;
+        text-align: center;
+        height: 500px;
+
+
+
+        p {
+            font-family: 'parkisans', Arial, Helvetica, sans-serif;
+        }
+
+
+        h2 {
+            font-family: 'parkisans', Arial, Helvetica, sans-serif;
+        }
+    }
+
+
+
+
+    .opgeslagen-product:nth-child(1n) {
+
+
+
+        @media (min-width: 955px) {
+            height: 500px;
+            margin-top: 130px;
+        }
+
+    }
+
+    .opgeslagen-product:nth-child(2n) {
+
+
+
+        @media (min-width: 955px) {
+            height: 550px;
+            margin-top: 70px;
+
+        }
+    }
+
+    .opgeslagen-product:nth-child(3n) {
+
+        @media (min-width: 955px) {
+            margin-top: 160px;
+
+            height: 550px;
+
+        }
+    }
+
+    .opgeslagen-product:nth-child(4n) {
+
+        @media (min-width: 955px) {
+            margin-top: 160px;
+
+            height: 550px;
+
+        }
+    }
+
+    .opgeslagen-product:nth-child(5n) {
+
+        @media (min-width: 955px) {
+            margin-bottom: 160px;
+
+            height: 550px;
+
+        }
+    }
+
+    .opgeslagen-product:nth-child(6n) {
+
+        @media (min-width: 955px) {
+            margin-bottom: 230px;
+
+            height: 550px;
+
+        }
+    }
+
+
+
+
+}
