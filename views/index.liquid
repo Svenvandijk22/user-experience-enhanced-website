@@ -1,5 +1,7 @@
 {% render 'partials/head.liquid' %}
 
+
+
 <header>
   <a href="/">
     <svg width="252" height="46" viewBox="0 0 252 46" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -94,24 +96,111 @@
         >
 
         <img 
-          src="{{ product.image }}" 
+          src="https://fdnd-agency.directus.app/assets/{{ product.img }}" 
           alt="{{ product.name }}"
           width="250"
-          sizes="(min-width: 600px) 250px, 200px"
+         
           class="product-afbeelding"
         >
       </picture>
-
+  
       <h2>{{ product.name }}</h2>
+{% if product.liked %}
+   <form method="post" action="/verwijder" class="like-form">
+  <button type="submit" class="lijst-button" value="{{ product.id }}" name="id">
+    <img class="success-icon default-icon" src="/assets/succes_state.png" alt="Opgeslagen">
+    <div class="loader hidden" aria-hidden="true"></div>
+  </button>
+</form>
+{% else %}
 
-      <form method="post" action="opslaan" class="like-form">
-        <button type="submit" class="lijst-button" value="{{ product.id }}" name="id">
-          <img class="lijstje" src="/assets/lijstje.png" alt="lijst">
-        </button>
+     <form method="post" action="/opslaan" class="like-form">
+  <button type="submit" class="lijst-button" value="{{ product.id }}" name="id">
+
+    <img class="lijstje default-icon" src="/assets/lijstje.png" alt="lijst">
+    <div class="loader hidden" aria-hidden="true"></div>
+  </button>
+</form>
+
+
+  {% endif %}
+
+           
       </form>
+
+
+
     </div>
   {% endfor %}
 </div>
 </main>
+
+<script type="module"> 
+
+  {% comment %} const start = document.querySelector(".default-icon")
+  const loading = document.querySelector(".loader")
+  const success = document.querySelector(".success-icon")
+
+
+  const form = document.querySelector(".like-form")
+  const lijstButton = document.querySelector(".lijst-button") {% endcomment %}
+
+  // Als er op de submit button wordt geklikt ...
+  document.addEventListener("submit", async function(event) {
+    // Voorkom de standaard submit van de browser
+    // Let op: hiermee overschrijven we de default Loading state van de browser...
+
+    const form = event.target
+    event.preventDefault()
+   
+    const start = form.querySelector('.default-icon')
+    const loading = form.querySelector('.loader')
+
+    start.classList.add("hidden")
+    loading.classList.remove("hidden")
+    
+    //Loading state tonen:
+  
+
+    //formdata voorbereiden:
+    let formData = new FormData(form);    
+
+    // Data fetchen:
+    // Doe een fetch naar de server, net als hoe de browser dit normaal zou doen
+    // Gebruik daarvoor het action en method attribuut van het formulier
+    // Stuur de formulierelementen mee
+    const response = await fetch(form.action, {
+      method: form.method, //POST dus
+      body: new URLSearchParams(formData) // <<< Dit moet omdat server.js anders niet met de formulier data kan werken
+    })
+
+    // Data verwerken:
+    // Jouw server.js geeft data terug als het posten goed gaat
+    const responseData = await response.text()
+
+    // Normaal zou de browser die HTML parsen en weergeven.
+    // Maar omdat we dit nu in client-side JS doen moeten we dit zelf doen:
+    // Parse de nieuwe HTML en maak onderwater een nieuw Document Object Model aan
+    const parser = new DOMParser()
+    const responseDOM = parser.parseFromString(responseData, 'text/html')
+
+    // Zoek in de onderwater DOM de nieuwe state op
+    const lijstButton = form.querySelector(".lijst-button")
+    const newState = responseDOM.querySelector('.lijst-button')
+
+    // Overschrijf de HTML met de nieuwe HTML
+    // We gaan de nieuwe state toevoegen aan de DOM, aan de scorelijst in de ol
+   
+    lijstButton.innerHTML = newState.innerHTML
+
+    // Loading state weghalen
+    // Nu kan je waarschijnlijk de Loading state vervangen door een Success state
+    console.log("Loading state weghalen")
+    loading.classList.add("hidden")
+    {% comment %} formButton.textContent = "Save score" {% endcomment %}
+
+  })
+
+</script>
 
 {% render 'partials/footer.liquid' %}

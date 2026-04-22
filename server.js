@@ -26,21 +26,26 @@ app.engine("liquid", engine.express());
 // Let op: de browser kan deze bestanden niet rechtstreeks laden (zoals voorheen met HTML bestanden)
 app.set("views", "./views");
 
-
-
-
 app.get("/", async function (request, response) {
   const params = {
-    fields: "name,image,id,amount",
+    fields: "name,image,img,id,amount",
   };
 
   if (request.query.sort === "hoog") {
-    params.sort = "-amount";    // hoog → laag
+    params.sort = "-amount"; // hoog → laag
   } else if (request.query.sort === "laag") {
-    params.sort = "amount";     // laag → hoog
+    params.sort = "amount"; // laag → hoog
   }
 
-  console.log(params)
+  const params2 = {
+    fields: "liked_products.milledoni_products_id",
+  };
+  console.log(params);
+
+  const likedProducts = await fetch(
+    "https://fdnd-agency.directus.app/items/milledoni_users/63/?" +
+      new URLSearchParams(params2),
+  );
 
   const productResponse = await fetch(
     "https://fdnd-agency.directus.app/items/milledoni_products/?" +
@@ -48,7 +53,15 @@ app.get("/", async function (request, response) {
   );
 
   const { data } = await productResponse.json();
-  response.render("index.liquid", { products: data });
+  const likedProductsJSON = await likedProducts.json();
+  // console.log(likedProductsJSON.data.liked_products);
+  const likedProductsIDs = likedProductsJSON.data.liked_products.map(product => { return product.milledoni_products_id})
+  const allProducts = data.map(product => { 
+    product.liked = likedProductsIDs.includes(product.id)
+    return product })
+
+  // console.log(data);
+  response.render("index.liquid", { products: allProducts });
 });
 
 /*
@@ -115,8 +128,6 @@ app.get("/likedproducts", async function (req, res) {
   });
 });
 
-
-
 app.get("/likedproducts", async function (req, res) {
   const params = {
     fields:
@@ -139,12 +150,9 @@ app.get("/likedproducts", async function (req, res) {
   });
 });
 
-
 app.use(express.urlencoded({ extended: true }));
 
 app.post("/opslaan", async function (request, response) {
-  
-
   await fetch(
     "https://fdnd-agency.directus.app/items/milledoni_users_milledoni_products_1",
     {
@@ -159,26 +167,28 @@ app.post("/opslaan", async function (request, response) {
     },
   );
 
-  response.redirect(303, "/likedproducts");
+  response.redirect(303, "/");
 });
 
 app.post("/verwijder", async function (request, response) {
-  const linkIDresponse = await fetch(`https://fdnd-agency.directus.app/items/milledoni_users_milledoni_products_1?filter[milledoni_users_id][_eq]=63&filter[milledoni_products_id][_eq]=${request.body.id}&fields=id&limit=1`)
+  const linkIDresponse = await fetch(
+    `https://fdnd-agency.directus.app/items/milledoni_users_milledoni_products_1?filter[milledoni_users_id][_eq]=63&filter[milledoni_products_id][_eq]=${request.body.id}&fields=id&limit=1`,
+  );
   const linkIDjson = await linkIDresponse.json();
   const linkID = linkIDjson.data[0].id;
 
-  // kan dit simpeler???? 
+  // kan dit simpeler????
 
-  const deleteResponse = await fetch('https://fdnd-agency.directus.app/items/milledoni_users_milledoni_products_1/' + linkID,
+  const deleteResponse = await fetch(
+    "https://fdnd-agency.directus.app/items/milledoni_users_milledoni_products_1/" +
+      linkID,
     {
-      method: "DELETE", 
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json;charset=UTF-8",
-      }
+      },
     },
   );
-
-
 
   response.redirect(303, "/likedproducts");
 });
@@ -195,5 +205,4 @@ app.listen(app.get("port"), function () {
   );
 });
 
-
-console.log('Zet \'m op!')
+console.log("Zet 'm op!");
