@@ -149,6 +149,10 @@ details {
         }
     }
 
+    summary:focus {
+  outline: 2px solid aqua;
+}
+
 
     .chatbot {
         position: absolute;
@@ -159,7 +163,17 @@ details {
         max-width: calc(100vw - 2rem);
         top: auto;
         right: auto;
+         transition: 
+        opacity 0.3s ease,
+        transform 0.3s ease;
     }
+
+
+    details[open] .chatbot {
+    opacity: 1;
+    transform: translateX(-70%) translateY(0);
+    pointer-events: auto;
+}
 
 
 
