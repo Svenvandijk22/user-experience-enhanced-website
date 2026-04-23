@@ -88,9 +88,9 @@
     <div class="producten-kaart">
       <img class="strikje" src="/assets/strikje.svg" alt="strikje">
       <picture>
-        <source type="image/avif" srcset="{{ product.image }}?format=avif">
-        <source type="image/webp" srcset="{{ product.image }}?format=webp">
-        <img src="{{ product.image }}" alt="Alternatieve tekst">
+        <source loading="lazy" type="image/avif" srcset="{{ product.image }}?format=avif">
+        <source loading="lazy" type="image/webp" srcset="{{ product.image }}?format=webp">
+        <img loading="lazy" src="{{ product.image }}" alt="Alternatieve tekst">
       </picture>
         <h2>{{ product.name }}</h2>
 
