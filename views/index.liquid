@@ -87,25 +87,17 @@
   {% for product in products %}
     <div class="producten-kaart">
       <img class="strikje" src="/assets/strikje.svg" alt="strikje">
-
       <picture>
-      
-        <source 
-          media="(min-width: 600px)" 
-          srcset="{{ product.image }}"
-        >
-
-        <img 
-          src="https://fdnd-agency.directus.app/assets/{{ product.img }}" 
-          alt="{{ product.name }}"
-          width="250"
-         
-          class="product-afbeelding"
-        >
+        <source type="image/avif" srcset="{{ product.image }}?format=avif">
+        <source type="image/webp" srcset="{{ product.image }}?format=webp">
+        <img src="{{ product.image }}" alt="Alternatieve tekst">
       </picture>
-  
-      <h2>{{ product.name }}</h2>
-{% if product.liked %}
+        <h2>{{ product.name }}</h2>
+
+
+
+
+        {% if product.liked %}
    <form method="post" action="/verwijder" class="like-form">
   <button type="submit" class="lijst-button" value="{{ product.id }}" name="id">
     <img class="success-icon default-icon" src="/assets/succes_state.png" alt="Opgeslagen">
@@ -126,11 +118,11 @@
   {% endif %}
 
            
-      </form>
+  
 
 
-
-    </div>
+</div>
+ 
   {% endfor %}
 </div>
 </main>
