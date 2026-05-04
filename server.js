@@ -26,26 +26,58 @@ app.engine("liquid", engine.express());
 // Let op: de browser kan deze bestanden niet rechtstreeks laden (zoals voorheen met HTML bestanden)
 app.set("views", "./views");
 
+
+
 app.get("/", async function (request, response) {
+   
+  
+  // Hier maken we een object met query parameters voor Directus.
+  // Query parameters zijn extra instellingen die je achter een URL zet.
+
+   // Met "fields" zeg je tegen Directus:
+  // Geef mij alleen deze velden terug.
   const params = {
     fields: "name,image,img,id,amount",
   };
+ 
+  // request.query leest wat er achter de ? in de URL staat.
+  // de url is query.sort === "hoog"
 
+
+    // Als sort "hoog" is, voegen we een sort-parameter toe aan params.
+    //
+    // In Directus betekent "-amount":
+    // sorteer op amount van hoog naar laag.
+    //
+    // Het min-teken voor amount betekent aflopend.
+
+
+  
   if (request.query.sort === "hoog") {
     params.sort = "-amount"; // hoog → laag
   } else if (request.query.sort === "laag") {
     params.sort = "amount"; // laag → hoog
   }
 
+  // Dit is een tweede object met query parameters.
+  
+  // Deze params gebruiken we niet voor producten,
+  // maar voor de gebruiker.
+  
+
+
   const params2 = {
     fields: "liked_products.milledoni_products_id",
   };
   console.log(params);
-
+  
+    // We willen weten welke producten gebruiker 63 heeft geliked.
   const likedProducts = await fetch(
     "https://fdnd-agency.directus.app/items/milledoni_users/63/?" +
       new URLSearchParams(params2),
   );
+    // Hier halen we alle producten op uit Directus.
+  
 
   const productResponse = await fetch(
     "https://fdnd-agency.directus.app/items/milledoni_products/?" +
