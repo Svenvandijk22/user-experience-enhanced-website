@@ -6,5 +6,3 @@ filterKnop.addEventListener("click", function () {
 });
 
 
-
-

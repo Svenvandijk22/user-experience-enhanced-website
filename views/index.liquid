@@ -147,6 +147,27 @@ loader.classList.remove("hidden")
 // na klik: lijstje verdwijnt spinner verschijnt
 
 
+  const formData = new FormData(form)
+  // verzamelt alles uit me formulier zodat die kan versturen met fetch
+
+  const response = await fetch(form.action, {
+    
+    method: form.method,
+    body: new URLSearchParams(formData)
+  })
+  // Deze code stuurt het formulier naar de server en wacht op het antwoord
+
+  console.log(response)
+
+ const responseData = await response.text()
+ // hier slaan ik de html tekst (string) op in een variabel response data
+
+
+ const parser = new DOMParser()
+ // hier maak je van de variabel parser een dom parser
+const responseDOM = parser.parseFromString(responseData, "text/html")
+//  gebruik de variabel responsedom om van de responsedata van de string echte html te maken
+
 })
 
 </script>
