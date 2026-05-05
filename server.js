@@ -155,37 +155,29 @@ app.get("/likedproducts", async function (req, res) {
 
   const productResponseJSON = await productResponse.json();
 
+  const likedProducts = productResponseJSON.data.liked_products
+    .filter(item => item.milledoni_products_id !== null)
+    .map(item => item.milledoni_products_id);
+
   res.render("likedproducts.liquid", {
-    likedProducts: productResponseJSON.data.liked_products,
+    likedProducts: likedProducts,
   });
 });
 
-app.get("/likedproducts", async function (req, res) {
-  const params = {
-    fields:
-      "liked_products.milledoni_products_id.slug," +
-      "liked_products.milledoni_products_id.image," +
-      "liked_products.milledoni_products_id.name," +
-      "liked_products.milledoni_products_id.amount," +
-      "liked_products.milledoni_products_id.id",
-  };
 
-  const productResponse = await fetch(
-    "https://fdnd-agency.directus.app/items/milledoni_users/63/?" +
-      new URLSearchParams(params),
-  );
-
-  const productResponseJSON = await productResponse.json();
-
-  res.render("likedproducts.liquid", {
-    likedProducts: productResponseJSON.data.liked_products,
-  });
-});
 
 app.use(express.urlencoded({ extended: true }));
 
 app.post("/opslaan", async function (request, response) {
-  await fetch(
+  console.log("OPSLAAN BODY:", request.body)
+  console.log("OPSLAAN ID:", request.body.id)
+
+  if (!request.body.id) {
+    console.log("❌ Geen ID ontvangen")
+    return response.redirect(303, "/")
+  }
+
+  const directusResponse = await fetch(
     "https://fdnd-agency.directus.app/items/milledoni_users_milledoni_products_1",
     {
       method: "POST",
@@ -199,32 +191,45 @@ app.post("/opslaan", async function (request, response) {
     },
   );
 
+  const directusJSON = await directusResponse.json()
+  console.log("DIRECTUS RESPONSE:", directusJSON)
+
   response.redirect(303, "/");
 });
 
+
+
+
 app.post("/verwijder", async function (request, response) {
+  console.log("product id:", request.body.id)
+
   const linkIDresponse = await fetch(
-    `https://fdnd-agency.directus.app/items/milledoni_users_milledoni_products_1?filter[milledoni_users_id][_eq]=63&filter[milledoni_products_id][_eq]=${request.body.id}&fields=id&limit=1`,
+    `https://fdnd-agency.directus.app/items/milledoni_users_milledoni_products_1?filter[milledoni_users_id][_eq]=63&filter[milledoni_products_id][_eq]=${request.body.id}&fields=id&limit=1`
   );
+
   const linkIDjson = await linkIDresponse.json();
+
+  console.log("Directus antwoord:", linkIDjson)
+
+  if (!linkIDjson.data || linkIDjson.data.length === 0) {
+    console.log("Geen opgeslagen product gevonden om te verwijderen")
+    return response.redirect(303, "/likedproducts");
+  }
+
   const linkID = linkIDjson.data[0].id;
 
-  // kan dit simpeler????
-
-  const deleteResponse = await fetch(
-    "https://fdnd-agency.directus.app/items/milledoni_users_milledoni_products_1/" +
-      linkID,
+  await fetch(
+    "https://fdnd-agency.directus.app/items/milledoni_users_milledoni_products_1/" + linkID,
     {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json;charset=UTF-8",
       },
-    },
+    }
   );
 
   response.redirect(303, "/likedproducts");
 });
-
 // Stel het poortnummer in waar Express op moet gaan luisteren
 // Lokaal is dit poort 8000; als deze applicatie ergens gehost wordt, waarschijnlijk poort 80
 app.set("port", process.env.PORT || 8000);

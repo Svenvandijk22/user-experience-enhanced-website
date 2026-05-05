@@ -95,17 +95,20 @@
         <h2>{{ product.name }}</h2>
 
 
-
 {% if product.liked %}
   <form method="post" action="/verwijder" class="like-form">
-    <button type="submit" class="lijst-button" value="{{ product.id }}" name="id">
+    <input type="hidden" name="id" value="{{ product.id }}">
+
+    <button type="submit" class="lijst-button">
       <img class="success-icon default-icon" src="/assets/succes_state.png" alt="Opgeslagen">
       <div class="loader hidden" aria-hidden="true"></div>
     </button>
   </form>
 {% else %}
   <form method="post" action="/opslaan" class="like-form">
-    <button type="submit" class="lijst-button" value="{{ product.id }}" name="id">
+    <input type="hidden" name="id" value="{{ product.id }}">
+
+    <button type="submit" class="lijst-button">
       <img class="lijstje default-icon" src="/assets/lijstje.png" alt="lijst">
       <div class="loader hidden" aria-hidden="true"></div>
     </button>
@@ -155,6 +158,7 @@ loader.classList.remove("hidden")
     method: form.method,
     body: new URLSearchParams(formData)
   })
+  console.log("response url:", response.url)
   // Deze code stuurt het formulier naar de server en wacht op het antwoord
 
   console.log(response)
@@ -167,6 +171,21 @@ loader.classList.remove("hidden")
  // hier maak je van de variabel parser een dom parser
 const responseDOM = parser.parseFromString(responseData, "text/html")
 //  gebruik de variabel responsedom om van de responsedata van de string echte html te maken
+
+
+ const productId = formData.get("id")
+
+const newForm = responseDOM
+  .querySelector(`.like-form input[name="id"][value="${productId}"]`)
+  ?.closest(".like-form")
+
+if (newForm) {
+  form.replaceWith(newForm)
+} else {
+  console.log("Nieuwe form niet gevonden")
+  loader.classList.add("hidden")
+  icon.classList.remove("hidden")
+}
 
 })
 

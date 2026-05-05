@@ -21,20 +21,23 @@
 
 
 <section class="opgeslagen-grid">
-  {% for product in likedProducts %}
-    <article class="opgeslagen-product">
-      <img class="strikje-twee" src="/assets/strikje.svg" alt="strikje">
+{% for product in likedProducts %}
+  <article class="opgeslagen-product">
+    <img class="strikje-twee" src="/assets/strikje.svg" alt="strikje">
 
-      <img src="{{ product.milledoni_products_id.image }}" alt="{{ product.milledoni_products_id.name }}">
-      <h2>{{ product.milledoni_products_id.name }}</h2>
-      <p>{{ product.milledoni_products_id.amount }}</p>
-      <form method="post" action="verwijder" class="like-form">
-        <button type="submit" class="lijst-button" value="{{ product.milledoni_products_id.id }}" name="id">
-          <img class="lijstjemin" src="/assets/minnetje.png" alt="lijst">
-        </button>
-      </form>
-    </article>
-  {% endfor %}
+    <img src="{{ product.image }}" alt="{{ product.name }}">
+    <h2>{{ product.name }}</h2>
+    <p>{{ product.amount }}</p>
+
+    <form method="post" action="/verwijder" class="like-form-liked">
+      <input type="hidden" name="id" value="{{ product.id }}">
+
+      <button type="submit" class="lijst-button">
+        <img class="lijstjemin" src="/assets/minnetje.png" alt="lijst">
+      </button>
+    </form>
+  </article>
+{% endfor %}
 
   
 </section>
