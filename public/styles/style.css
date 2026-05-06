@@ -212,6 +212,8 @@ main {
     position: sticky;
     top: 20px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    
 
 
     .chat-window {
@@ -278,6 +280,8 @@ main {
     }
 
     @media (min-width: 955px) {
+          opacity: 1;
+        
 
         width: 40%;
 
