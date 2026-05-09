@@ -1,8 +1,8 @@
 {% render 'partials/head.liquid' %}
 
 <header>
-  <a href="/">
-    <svg width="252" height="46" viewBox="0 0 252 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <a href="/" class="logo">
+    <svg viewBox="0 0 252 46" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path class="milledoni-header-logo-big-letters" d="M48.8945 15.0898H55.7628V44.4101H48.8945V15.0898Z" fill="#212121"></path>
       <path class="milledoni-header-logo-big-letters" d="M80.4751 38.5486V44.4101H65.3555V15.0898H72.1391V38.5486H80.4751Z" fill="#212121"></path>
       <path class="milledoni-header-logo-big-letters" d="M103.44 38.5486V44.4101H88.3203V15.0898H95.1039V38.5486H103.44Z" fill="#212121"></path>
@@ -17,29 +17,53 @@
       <path d="M33.0708 14.5781L27.7895 18.7909L26.7418 19.6325L20.0252 24.9881L13.2322 19.599L12.1749 18.7574L6.9079 14.5781H0V43.9671H6.9366V23.5153L10.9455 26.504L12.1988 27.4364L18.3605 32.0269H21.6948L27.7177 27.5368L28.9663 26.6092L33.1187 23.5153V43.9671H40.0505V14.5781H33.0708Z" fill="#212121"></path>
     </svg>
   </a>
+
+  <a href="/likedproducts" class="likedpgaginaicon">
+      <p>{{ wishlistCount }}</p> 
+      <img src="assets/likedpaginaicon.png">
+  </a>
+
 </header>
 
 
-<section class="opgeslagen-grid">
-{% for product in likedProducts %}
-  <article class="opgeslagen-product">
-    <img class="strikje-twee" src="/assets/strikje.svg" alt="strikje">
 
-    <img src="{{ product.image }}" alt="{{ product.name }}">
-    <h2>{{ product.name }}</h2>
-    <p>{{ product.amount }}</p>
-
-    <form method="post" action="/verwijder" class="like-form-liked">
-      <input type="hidden" name="id" value="{{ product.id }}">
-
-      <button type="submit" class="lijst-button">
-        <img class="lijstjemin" src="/assets/minnetje.png" alt="lijst">
-      </button>
-    </form>
-  </article>
-{% endfor %}
-
+{% if likedProducts.size > 0 %}
+   
+ <section class="opgeslagen-grid">
   
-</section>
+  
+  {% for product in likedProducts %}
+    <article class="opgeslagen-product">
+      <img class="strikje-twee" src="/assets/strikje.svg" alt="strikje">
 
+      <img src="{{ product.image }}" alt="{{ product.name }}">
+      <h2>{{ product.name }}</h2>
+      <p>{{ product.amount }}</p>
+
+      <form method="post" action="/verwijder" class="like-form-liked">
+        <input type="hidden" name="id" value="{{ product.id }}">
+
+        <button type="submit" class="lijst-button">
+          <img class="lijstjemin" src="/assets/minnetje.png" alt="lijst">
+        </button>
+      </form>
+    </article>
+    </section>
+  {% endfor %}
+  
+
+
+{% comment %} {% else %}
+  <div class="empty-state">
+    <img src="assets/empty state.png" alt="empty state">
+  </div>
+{% endif %} {% endcomment %}
+   
+
+{% else %}
+  <div class="empty-state">
+    <img src="assets/empty state.png" alt="empty state">
+  </div>
+{% endif %}
+  
 {% render 'partials/footer.liquid' %}
