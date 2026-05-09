@@ -84,16 +84,29 @@ app.get("/", async function (request, response) {
       new URLSearchParams(params),
   );
 
-  const { data } = await productResponse.json();
-  const likedProductsJSON = await likedProducts.json();
-  // console.log(likedProductsJSON.data.liked_products);
-  const likedProductsIDs = likedProductsJSON.data.liked_products.map(product => { return product.milledoni_products_id})
-  const allProducts = data.map(product => { 
-    product.liked = likedProductsIDs.includes(product.id)
-    return product })
+const { data } = await productResponse.json();
+const likedProductsJSON = await likedProducts.json();
+
+// haal alleen echte opgeslagen product ids op
+const likedProductsIDs = likedProductsJSON.data.liked_products
+  .filter(product => product.milledoni_products_id !== null)
+  .map(product => {
+    return product.milledoni_products_id
+  })
+
+// voeg per product een liked status toe
+const allProducts = data.map(product => { 
+  product.liked = likedProductsIDs.includes(product.id)
+  return product
+})
+
+// tel hoeveel opgeslagen producten er zijn
+const wishlistCount = likedProductsIDs.length
+
+    
 
   // console.log(data);
-  response.render("index.liquid", { products: allProducts });
+  response.render("index.liquid", { products: allProducts, wishlistCount: wishlistCount  });
 });
 
 /*
@@ -173,7 +186,7 @@ app.post("/opslaan", async function (request, response) {
   console.log("OPSLAAN ID:", request.body.id)
 
   if (!request.body.id) {
-    console.log("❌ Geen ID ontvangen")
+  
     return response.redirect(303, "/")
   }
 
