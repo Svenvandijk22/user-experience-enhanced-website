@@ -21,6 +21,9 @@ tijdens de
 ## User experience
 
 
+## Frontend performance
+
+
 ## Gebruik
 <!-- Bij Gebruik staat de user story, hoe het werkt en wat je er mee kan. -->
 
