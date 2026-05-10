@@ -154,6 +154,9 @@ const loader = form.querySelector(".loader")
 const button = form.querySelector(".lijst-button")
 //zoek binnen dit formulier de knop met class .lijst-button die ik ga nodig hebben om hem uite zetten
 
+button.disabled = true
+// knop tijdelijk uitgezet
+
 icon.classList.add("hidden")
 loader.classList.remove("hidden")
 // na klik: lijstje verdwijnt spinner verschijnt
