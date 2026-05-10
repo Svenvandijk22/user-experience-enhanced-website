@@ -112,7 +112,7 @@ header {
 
 .filter-overzicht {
     pointer-events: none;
-    opacity: 0;
+ display: none;
 
     position: absolute;
     border: #E0B000 solid 5px;
@@ -187,7 +187,7 @@ details {
     position: fixed;
     bottom: 5%;
     z-index: 100;
-    left: 26%;
+    left: 58%;
 
     summary {
         list-style: none;
@@ -393,7 +393,7 @@ main {
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
-        height: 450px;
+        height: 550px;
         padding-top: 80px;
         padding-left: 80px;
         border-radius: 60px;
@@ -442,7 +442,7 @@ main {
         display: flex;
         align-items: center;
 
-        margin-left: 27%;
+        margin-left: 16%;
 
         width: 120px;
 
