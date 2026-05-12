@@ -44,10 +44,28 @@
   </div>
 
   <details>
-    <summary>
-       <img class="icon-open" src="assets/chat_bot_iconc.png" alt="Open chatbot">
-       <img class="icon-close" src="assets/icon_sluiten.png" alt="Sluit chatbot">
-    </summary>
+
+<summary>
+  <img
+    class="icon-open"
+    src="assets/chat_bot_iconc-small.webp"
+    alt="Open chatbot"
+    width="125"
+    height="163"
+    loading="lazy"
+    decoding="async"
+  >
+
+  <img
+    class="icon-close"
+    src="assets/icon_sluiten-small.webp"
+    alt="Sluit chatbot"
+    width="50"
+    height="60"
+    loading="lazy"
+    decoding="async"
+  >
+</summary>
 
     <div class="chatbot">
       <div class="chat-window">
@@ -94,9 +112,33 @@
     <div class="producten-kaart">
       <img class="strikje" src="/assets/strikje.svg" alt="strikje">
       <picture>
-        <source loading="lazy" type="image/avif" srcset="{{ product.image }}?format=avif&width=&quality=">
-        <source loading="lazy" type="image/webp" srcset="{{ product.image }}?format=webp">
-        <img loading="lazy" src="{{ product.image }}" alt="Alternatieve tekst" width="{{ product.image.width }}">
+        {% comment %} <source type="image/avif" srcset="{{ product.image }}?format=avif&width=&quality=">
+        <source type="image/webp" srcset="{{ product.image }}?format=webp"> {% endcomment %}
+        {% comment %} <img loading="lazy" src="{{ product.image }}" alt="Alternatieve tekst" width="{{ product.image.width }}"> {% endcomment %}
+{% comment %} 
+        <img 
+          {% if forloop.index <= 2 %}
+              loading="eager"
+              {% else %}
+              loading="lazy"
+              {% endif %}
+              src="{{ product.image }}" alt="Alternatieve tekst"
+              alt="Alternatieve tekst"
+              width="{{ product.image.width }}" {% endcomment %}
+
+               <source type="image/avif" srcset="{{ product.image }}?format=avif&width={{ product.image.width }}&quality=80">
+              <source type="image/webp" srcset="{{ product.image }}?format=webp&width={{ product.image.width }}&quality=80">
+
+<img 
+    {% if forloop.index <= 2 %}
+      loading="eager"
+      fetchpriority="high"
+    {% else %}
+      loading="lazy"
+    {% endif %}
+    src="{{ product.image }}"
+    alt="{{ product.title }}"
+    width="{{ product.image.width }}">
       </picture>
         <h2>{{ product.name }}</h2>
 

@@ -128,6 +128,7 @@ header {
     transition: opacity 0.3s ease, transform 0.3s ease;
 
     &.open {
+          display: block;
         opacity: 1;
         pointer-events: auto;
         transform: translateY(0);
